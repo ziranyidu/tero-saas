@@ -14,19 +14,16 @@ import os
 from django.core.wsgi import get_wsgi_application
 from djangae.environment import is_production_environment
 from djangae.wsgi import DjangaeApplication
-from django.conf import settings
+from django.conf import settings as _settings
 from werkzeug.debug import DebuggedApplication
 
 settings = "terogae.settings_live" if is_production_environment() else "terogae.settings"
 os.environ.setdefault("DJANGO_SETTINGS_MODULE", settings)
 
-
-
-# But we can’t use this approach with gae, because it doesn’t use runserver, 
-# it just works through wsgi. So instead we should wrap our wsgi application 
-# with DebuggedApplication# application = DjangaeApplication(get_wsgi_application())
+# Use werkzeug to be able to have runserver_plus , more info at:
+# https://nvbn.github.io/2015/07/17/wekzeug-django-gae/
 application = get_wsgi_application()
-if settings.DEBUG:
-    app = DebuggedApplication(app, True)
+if _settings.DEBUG:
+    app = DebuggedApplication(application, True)
     # Werkzeug won't work without exceptions propagation
-    settings.DEBUG_PROPAGATE_EXCEPTIONS = True
+    _settings.DEBUG_PROPAGATE_EXCEPTIONS = True

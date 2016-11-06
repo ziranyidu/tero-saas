@@ -33,7 +33,7 @@ INSTALLED_APPS = (
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
-    'djangae.contrib.contenttypes',
+    'djangae.contrib.contenttypes',  # needs to come after django.contrib.contenttypes
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
