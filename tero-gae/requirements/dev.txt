@@ -1,4 +1,0 @@
-nose
-ipython
-django-extensions
-Werkzeug
