@@ -1,3 +1,4 @@
+from modules.bots import telegram 
 from flask import (
     Flask,
     render_template
@@ -6,6 +7,7 @@ import logging
 
 
 app = Flask(__name__)
+app.register_blueprint(telegram, url_prefix='/bots/telegram')
 
 
 @app.route('/')
