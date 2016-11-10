@@ -1,4 +1,4 @@
-from modules.telegram.bot import telegram
+from apps.telegram.bot import telegram
 from flask import (
     Flask,
     render_template
