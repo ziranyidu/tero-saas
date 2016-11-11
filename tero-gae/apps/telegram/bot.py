@@ -40,12 +40,6 @@ def me():
     return json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getMe')))
 
 
-@telegram.route('/get-updates')
-def get_updates():
-    urlfetch.set_default_fetch_deadline(60)
-    return json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getUpdates')))
-
-
 @telegram.route('/reset-webhook')
 def reset_webhook():
     urlfetch.set_default_fetch_deadline(60)
@@ -69,9 +63,20 @@ def webhook_info():
     return json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getWebhookInfo')))
 
 
-@telegram.route('/webhook', methods=['POST', 'GET'])
+@telegram.route('/webhook', methods=['POST'])
 def webhook():
     urlfetch.set_default_fetch_deadline(60)
-    if request.method == 'POST':
-        return request.get_json()
-    return 'la cosa vino por get'
+    data = request.get_json()
+    message = data['message']
+    from_id = message['from']['id']
+    text = message['text']
+    message_id = message['message_id']
+    chat_id = message['chat']['id']
+    msg = 'frulaaaaaaaaaa'
+    resp = urllib2.urlopen(BASE_URL + 'sendMessage', urllib.urlencode({
+        'chat_id': str(chat_id),
+        'text': msg.encode('utf-8'),
+        'disable_web_page_preview': 'true',
+        'reply_to_message_id': str(message_id),
+    })).read()
+    return json.dumps(data)
