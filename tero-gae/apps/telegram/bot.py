@@ -11,7 +11,7 @@ from flask import Blueprint, render_template, request
 from google.appengine.ext import ndb
 
 TOKEN = '265716638:AAF13GJ7tMGpI4VUTBNzfeG0XiKDXiCLW1Y'
-BASE_URL = 'https://api.telegram.org/bot' + TOKEN + '/'
+BASE_URL = 'https://api.telegram.org/bot/' + TOKEN + '/'
 
 
 telegram = Blueprint('telegram', __name__)
@@ -46,9 +46,10 @@ def get_updates():
     return json.dumps(json.load(urllib2.urlopen(BASE_URL + 'getUpdates')))
 
 
-@telegram.route('/set-webhook/<url>')
-def set_webhook(url):
+@telegram.route('/set-webhook')
+def set_webhook():
     urlfetch.set_default_fetch_deadline(60)
+    url = request.args.get('url') 
     return json.dumps(json.load(urllib2.urlopen(BASE_URL + 'setWebhook', urllib.urlencode({'url': url}))))
 
 
